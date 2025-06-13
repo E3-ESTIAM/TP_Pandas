@@ -1,4 +1,5 @@
 OBJECTIF
+
 Ce TP consiste à explorer un jeu de données réel (tips) avec les bibliothèques Python Pandas, Matplotlib, Seaborn et NumPy. Le but est de comprendre les comportements de pourboire selon différents facteurs comme le jour, le sexe, le tabagisme ou encore la taille du groupe.
 
 Chargement des données
@@ -197,6 +198,7 @@ Cette commande filtre les données par sexe en deux sous-ensembles (hommes et fe
 
 
 CONCLUSION
+
 À travers cette analyse, nous avons exploré différentes facettes des données, calculé des statistiques et visualisé plusieurs tendances. Grâce à Pandas, NumPy et Seaborn, nous avons pu effectuer des opérations complexes de manière rapide et efficace. Les résultats obtenus montrent notamment des différences de comportement entre les clients et permettent d’extraire des informations intéressantes sur les pourboires.
 
 
