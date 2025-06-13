@@ -1,4 +1,4 @@
-🎯 OBJECTIF
+OBJECTIF
 Ce TP consiste à explorer un jeu de données réel (tips) avec les bibliothèques Python Pandas, Matplotlib, Seaborn et NumPy. Le but est de comprendre les comportements de pourboire selon différents facteurs comme le jour, le sexe, le tabagisme ou encore la taille du groupe.
 
 Chargement des données
@@ -7,7 +7,6 @@ import seaborn as sns
 import pandas as pd
 
 tips = sns.load_dataset("tips")
-
 
 
 1. Aperçu du jeu de données
@@ -68,66 +67,78 @@ tips.groupby("size")["tip"].mean()
 
 
 7. Table croisée
+   
 Une pivot table affiche la moyenne des pourboires selon les day et time :
 pd.pivot_table(tips, index="day", columns="time", values="tip", aggfunc="mean")
 
 Utile pour comparer par exemple le dimanche midi vs soir.
 
 8. Proportion de fumeurs
+   
 (tips["smoker"] == "Yes").mean() * 100
-
-
 Cela donne le pourcentage de fumeurs. Tu peux aussi comparer par sexe.
 
+
 9. Boxplot des pourboires
+    
 Avec sns.boxplot(x="day", y="tip"), on visualise la variabilité des pourboires par jour.
 On peut facilement voir quel jour a le plus d'écarts (outliers, médiane, etc.).
 
-10. Nuage de points
+
+11. Nuage de points
+    
 sns.scatterplot(x="total_bill", y="tip")
-
-
 On observe une relation positive : plus la facture est élevée, plus le pourboire tend à augmenter.
 
+
 14. Pourcentage de pourboire
+    
 Nouvelle colonne tip_pct :
 tips["tip_pct"] = tips["tip"] / tips["total_bill"]
 
-
 Puis moyenne et écart-type avec .mean() et .std().
 
+
 15. Qui donne le plus en proportion ?
+    
 On compare tip_pct selon :
 - sex
 - smoker
 - day
+  
 Cela révèle des différences culturelles ou sociales dans le comportement des clients.
 
+
 16. Conversion NumPy
+    
 tips[["total_bill", "tip"]].to_numpy()
-
-
 Cela donne un tableau à 2 colonnes. .shape renvoie les dimensions (n, 2).
 
+
 17. Calculs vectorisés avec NumPy
+    
 Exemples :
 - Moyenne : np.mean(tips["tip"])
 - Max : np.max(tips["tip"])
 - Somme conditionnelle : tips[tips["total_bill"] > 30]["tip"].sum()
 
+Avec NumPy, on effectue des calculs rapides et efficaces sans boucl explicite.
+  
+
 18. Filtrage NumPy (avec condition)
+    
 tips[tips["size"] >= 4]["tip"]
+Cela sélectionne les pourboires quand size >= 4. qui permet d'étudier comment la taille de la table influence les poubloires.
 
-
-Cela sélectionne les pourboires quand size >= 4.
 
 19. Indexation booléenne avec Pandas
+
 tips[tips["tip_pct"] > 0.2]
-
-
 Cela retourne les cas où le pourboire est supérieur à 20% de la note.
 
+
 20. Fonctions personnalisées .apply()
+    
 Tu crées une fonction :
 def tip_level(tip):
     if tip < 2:
@@ -141,34 +152,40 @@ def tip_level(tip):
 Puis :
 tips["tip_level"] = tips["tip"].apply(tip_level)
 
+Et on peut voir la répartition avec .value_counts(). On classe les pourboires en 3 pour mieux les analyser.
 
-Et on peut voir la répartition avec .value_counts().
 
 21. np.where pour créer une colonne
+    
 tips["is_large_party"] = np.where(tips["size"] >= 4, True, False)
+np.where permet de créer facilement des colones avec des conditions.
 
-
 
 22. Tri des factures
 np.sort(tips["total_bill"])[-10:]
 
 
-Affiche les 10 plus grosses additions.
+On affiche les 10 plus grosses additions pour voir si elles sont associées à des poubloires éleves.
+
 
 23. Écart-type par jour
+ 
 tips.groupby("day")["tip_pct"].std()
 
+On voit quel jour le pourboire est le plus variable cet a dire quel jour a la plus grande dispension des pouboires.
 
-On voit quel jour le pourboire est le plus variable.
 
 24. Masque NumPy avancé
+    
 mask = (tips["tip"] > 5) & (tips["time"] == "Dinner") & (tips["smoker"] == "Yes")
 tips[mask]
 
 
-Cela filtre les cas répondant aux 3 conditions.
+Cela montre combien de cas réemplissent ces 3 conditions.
+
 
 25. Jointure avec concaténation
+    
 On sépare :
 male_df = tips[tips["sex"] == "Male"]
 female_df = tips[tips["sex"] == "Female"]
@@ -178,6 +195,9 @@ pd.concat([male_df, female_df])
 
 Cette commande filtre les données par sexe en deux sous-ensembles (hommes et femmes), puis les concatène verticalement pour reconstituer l’ensemble initial.
 
+
+CONCLUSION
+À travers cette analyse, nous avons exploré différentes facettes des données, calculé des statistiques et visualisé plusieurs tendances. Grâce à Pandas, NumPy et Seaborn, nous avons pu effectuer des opérations complexes de manière rapide et efficace. Les résultats obtenus montrent notamment des différences de comportement entre les clients et permettent d’extraire des informations intéressantes sur les pourboires.
 
 
 
